@@ -253,7 +253,7 @@ void *check_http(void *arg)
   }
 
 
-  sprintf( buff,"CONNECT %s:%d HTTP/1.0\r\nUser-Agent: yaph-%s\r\n\r\n",
+  sprintf( buff,"GET http://%s:%d/serverstate HTTP/1.0\r\nUser-Agent: yaph-%s\r\n\r\n",
              globals->content_host,
              globals->content_port,
             YAPH_VERSION);

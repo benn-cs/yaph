@@ -287,15 +287,15 @@ void init_options(int argc, char *argv[]) {
 			exit_error(errno);
 		strcpy(globals->nmap_string[2], "-oG");
 
-		globals->nmap_string[3] = malloc(2);
+		globals->nmap_string[3] = malloc(3);
 		if (!globals->nmap_string[3])
 			exit_error(errno);
-		strcpy(globals->nmap_string[3], "-");
+		strcpy(globals->nmap_string[3], "-O");
 
 		globals->nmap_string[4] = malloc(17);
 		if (!globals->nmap_string[4])
 			exit_error(errno);
-		strcpy(globals->nmap_string[4], "-randomize_hosts");
+		strcpy(globals->nmap_string[4], "--randomize_hosts");
 
 		kam = 4;
 		if (!port_list) {
@@ -303,10 +303,10 @@ void init_options(int argc, char *argv[]) {
 			if (!globals->nmap_string[kam])
 				exit_error(errno);
 			strcpy(globals->nmap_string[kam], "-p");
-			globals->nmap_string[++kam] = malloc(15);
+			globals->nmap_string[++kam] = malloc(18);
 			if (!globals->nmap_string[kam])
 				exit_error(errno);
-			strcpy(globals->nmap_string[kam], "1080,8080,3128");
+			strcpy(globals->nmap_string[kam], "21,1080,8080,3128");
 		} else
 			my_argc -= 2;
 

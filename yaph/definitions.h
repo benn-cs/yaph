@@ -99,6 +99,6 @@ check_type	type;
 
 // some defaults
 #define CONTENT_PORT 80
-#define CONTENT_HOST "www.yahoo.com"
-#define CONTENT_DATA "search.yahoo.com"
+#define CONTENT_HOST "rtb.mixdata.com.cn"
+#define CONTENT_DATA "Server"
 #define CONTENT_REQUEST  "GET / HTTP/1.0\r\n\r\n"
