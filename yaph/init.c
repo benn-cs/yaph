@@ -116,7 +116,7 @@ void init_options(int argc, char *argv[]) {
 	globals->et = -1;
 	globals->tcp_read_time_out = 15 * 1000; // milliseconds
 	globals->tcp_connect_time_out = 15 * 1000; // milliseconds
-	globals->paral_checks = 20;
+	globals->paral_checks = 200;
 	strcpy(globals->content_data, CONTENT_DATA);
 	strcpy(globals->content_request, CONTENT_REQUEST);
 

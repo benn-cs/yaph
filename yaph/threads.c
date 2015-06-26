@@ -253,10 +253,10 @@ void *check_http(void *arg)
   }
 
 
-  sprintf( buff,"GET http://%s:%d/serverstate HTTP/1.0\r\nUser-Agent: yaph-%s\r\n\r\n",
+  sprintf( buff,"GET http://%s:%d/serverstate HTTP/1.0\r\nHost:%s\r\n\r\n",
              globals->content_host,
              globals->content_port,
-            YAPH_VERSION);
+            globals->content_host);
   len=strlen(buff);
   if(len!=send(sock,buff,len,0))
   {

@@ -18,6 +18,7 @@
 #include "yaph.h"
 
 #define LOG_BUFF 1024*20
+#include <sys/syscall.h>
 
 int write_log(int level,char* file, char* func, int line,char *str,...)
 {
@@ -36,7 +37,7 @@ int write_log(int level,char* file, char* func, int line,char *str,...)
         t=time(NULL);
         localtime_r(&t,&tm);
         strftime(d_stamp,99,"%a %d/%b %H:%M:%S",&tm);
-        fprintf(log_file,"[%s]:PID=%d:%s:%s:%d:  %s\n",d_stamp,getpid(),file,func,line,buff);
+        fprintf(log_file,"[%s]:TID=%d:%s:%s:%d:  %s\n",d_stamp,pthread_self(),file,func,line,buff);
         fflush(log_file);
 	}
 

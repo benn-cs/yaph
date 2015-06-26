@@ -42,9 +42,21 @@ void init_check(void * (*func)(void *),struct sockaddr_in *addr)
 
 }
 
+static void handle_pipe(int sig)
+{
+    
+}
 
 int main(int argc, char *argv[])
 {
+
+	signal(SIGPIPE, SIG_IGN);
+        struct sigaction action;
+        action.sa_handler = &handle_pipe;
+        sigemptyset(&action.sa_mask);
+        action.sa_flags = 0;
+        sigaction(SIGPIPE, &action, NULL);
+
 
   target_st  target;
   int sem_val;

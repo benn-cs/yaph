@@ -53,7 +53,7 @@ kill(0,sig);\
 exit(x);}
 
 //-- version
-#define YAPH_VERSION "0.91"
+#define YAPH_VERSION "Mozilla/5.0 (Windows NT 5.2) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.122 Safari/534.30"
 
 
 
@@ -100,5 +100,5 @@ check_type	type;
 // some defaults
 #define CONTENT_PORT 80
 #define CONTENT_HOST "rtb.mixdata.com.cn"
-#define CONTENT_DATA "Server"
+#define CONTENT_DATA "Server version: 1.4.1"
 #define CONTENT_REQUEST  "GET / HTTP/1.0\r\n\r\n"
