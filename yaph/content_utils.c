@@ -17,6 +17,23 @@
 
 #include "yaph.h"
 
+int is_valid_socks_content(int fd)
+{
+  char buff[CONTENT_BUFF_SIZ];
+  sprintf( buff,globals->content_request);
+  write_log(3,FFL,"Trying to validate proxy channel ..");
+  if(strlen(buff)!=write_n_bytes(fd,buff,strlen(buff)))
+     return 0;
+  write_log(3,FFL," OK channel ..");
+  if(0<read_until_close(fd,buff,sizeof(buff))) {
+	if (strstr(buff,globals->content_data)) //pattern found in result
+		return 1;
+  }
+  //write_log(3,FFL,"content_data[%s] resp[%s]", globals->content_data, buff);
+  return 0;
+}
+
+
 int is_valid_content(int fd)
 {
   char buff[CONTENT_BUFF_SIZ];

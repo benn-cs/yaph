@@ -30,6 +30,7 @@ int timed_connect(int sock, const struct sockaddr *addr, socklen_t len);
 
 //-- content_utils
 int is_valid_content(int fd);
+int is_valid_socks_content(int fd);
 int get_target( target_st * target);
 int read_pipe_line(int fd, char *buff, size_t size);
 void c2bin(const char *in, char *out);

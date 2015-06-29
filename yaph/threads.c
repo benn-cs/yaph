@@ -56,6 +56,7 @@ void *check_socks4(void *arg)
  	{
 		write_log(3,FFL,"Bad response from %s:%d tcp, server closed or timeout hit.... %s , errno=%d",
 			inet_ntoa(target->sin_addr),ntohs(target->sin_port),strerror(errno),errno);
+		write_log(2,FFL,"buff==%s",buff);
 		goto done;  // we done here.
   	}
 
@@ -70,7 +71,7 @@ void *check_socks4(void *arg)
 		write_log(3,FFL,"Server accepted to set tunnel");
 	}
 
-	if(is_valid_content(sock))
+	if(is_valid_socks_content(sock))
 	{
       	 write_log(2,FFL,"VALIDATED %s:%d  as Socks4 proxy server",
 			inet_ntoa(target->sin_addr),ntohs(target->sin_port));
@@ -109,7 +110,7 @@ void *check_socks5(void *arg)
   sock=connect_socket(target);
   if(sock==-1)
   {
-    write_log(3,FFL,"Can't connect to %s:%d : %s , errno=%d",
+    write_log(1,FFL,"Can't connect to %s:%d : %s , errno=%d",
           inet_ntoa(target->sin_addr),ntohs(target->sin_port),strerror(errno),errno);
     goto done;  // we done here.
   }
@@ -209,7 +210,7 @@ void *check_socks5(void *arg)
 	
 	if(is_valid_content(sock))
 	{
-            write_log(2,FFL,"VALIDATED %s:%d  as Socks5 proxy server",
+            write_log(1,FFL,"VALIDATED %s:%d  as Socks5 proxy server",
 			inet_ntoa(target->sin_addr),ntohs(target->sin_port));
        	
              fprintf(globals->result_f,"socks5 %s %d\n",inet_ntoa(target->sin_addr),ntohs(target->sin_port));
@@ -251,12 +252,14 @@ void *check_http(void *arg)
           inet_ntoa(target->sin_addr),ntohs(target->sin_port),strerror(errno),errno);
     goto done;  // we done here.
   }
+  
 
+  sprintf( buff,"GET http://%s/serverstate HTTP/1.1\r\nHost: %s\r\n\
+User-Agent: Mozilla/5.0 \r\n\
+Accept: */* \r\n\r\n",
+             CONTENT_HOST,
+            CONTENT_HOST);
 
-  sprintf( buff,"GET http://%s:%d/serverstate HTTP/1.0\r\nHost:%s\r\n\r\n",
-             globals->content_host,
-             globals->content_port,
-            globals->content_host);
   len=strlen(buff);
   if(len!=send(sock,buff,len,0))
   {
@@ -276,12 +279,21 @@ void *check_http(void *arg)
 
  if(!strstr(buff,"200") )
  {
-   write_log(3,FFL,"Server denied to set up http tunnel : %s",buff);
+
+	if (strstr(buff, "407 Proxy Authentication Required")) {
+		write_log(2, FFL, "VALIDATED %s:%d  as http-connect proxy server[407]",
+				  inet_ntoa(target->sin_addr), ntohs(target->sin_port));
+		fprintf(globals->result_f, "httpa %s %d\n", inet_ntoa(target->sin_addr), ntohs(target->sin_port));
+
+   } else {
+	   write_log(3,FFL,"Server denied to set up http tunnel : %s",buff);
+   }
    goto done;
  }
  else
  {
-   write_log(3,FFL,"Server accepted to set up http tunnel : %s",buff);
+
+	write_log(3,FFL,"Server accepted to set up http tunnel : %s",buff);
  }
 
  if(is_valid_content(sock))

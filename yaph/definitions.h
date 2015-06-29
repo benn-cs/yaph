@@ -101,4 +101,4 @@ check_type	type;
 #define CONTENT_PORT 80
 #define CONTENT_HOST "rtb.mixdata.com.cn"
 #define CONTENT_DATA "Server version: 1.4.1"
-#define CONTENT_REQUEST  "GET / HTTP/1.0\r\n\r\n"
+#define CONTENT_REQUEST  "GET /serverstate HTTP/1.0\r\n\r\n"
